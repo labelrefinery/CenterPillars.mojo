@@ -1,0 +1,5 @@
+name = "centerpillars"
+version = "0.1.0"
+description = "Pure-Mojo CenterPillars inferencer: single-stage 3D LiDAR object detection (PointPillars + CenterPoint head)"
+tags = ["detection", "lidar", "pointpillars", "centerpoint", "inference", "argoverse2"]
+tins = []

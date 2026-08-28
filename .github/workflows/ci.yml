@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: ${{ matrix.env == 'default' && 'nightly' || matrix.env }} / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        env: [default, stable]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: prefix-dev/setup-pixi@v0.9.0
+        with:
+          environments: ${{ matrix.env }}
+
+      - name: Unit tests
+        run: pixi run -e ${{ matrix.env }} test
+
+      # TODO: enable once smoke weights + parity samples are published.
+      # The exported LFT1 files are not committed (see .gitignore); until they
+      # are hosted somewhere fetchable, run the parity check locally after
+      # `scripts/export_mojo.py` in a CenterPillars.py checkout:
+      #
+      #   cp ../CenterPillars.py/export/*.lft data/
+      #   pixi run -e ${{ matrix.env }} infer
+      #
+      # - name: Fetch smoke weights + parity samples
+      #   run: |
+      #     mkdir -p data
+      #     for f in weights.lft sample_0.lft sample_1.lft sample_2.lft; do
+      #       curl -sSfL "<host>/$f" -o "data/$f"
+      #     done
+      #
+      # - name: Inference parity vs PyTorch
+      #   run: |
+      #     pixi run -e ${{ matrix.env }} infer | tee infer.log
+      #     grep -q "PARITY: PASS" infer.log

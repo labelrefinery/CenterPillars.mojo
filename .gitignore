@@ -1,0 +1,10 @@
+# pixi environments
+.pixi/*
+!.pixi/config.toml
+*.conda
+
+# Exported weights / parity samples (large, fetched or regenerated)
+/data/
+
+# Editor / OS
+.DS_Store
