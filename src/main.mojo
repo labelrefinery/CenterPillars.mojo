@@ -159,9 +159,8 @@ def main() raises:
             csv += "," + fmt4(boxes.at2(r, 7)) + "\n"
 
     if csv_path.byte_length() > 0:
-        var f = open(csv_path, "w")
-        f.write(csv)
-        f.close()
+        with open(csv_path, "w") as f:
+            f.write(csv)
         print("wrote", csv_path)
 
     print("PARITY:", "PASS" if all_pass else "FAIL")
