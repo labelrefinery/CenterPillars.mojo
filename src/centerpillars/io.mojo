@@ -174,7 +174,6 @@ def load_lft(path: String) raises -> Dict[String, Tensor]:
     """Parse an LFT1 file into a name -> Tensor dictionary."""
     var f = open(path, "r")
     var bytes = f.read_bytes()
-    f.close()
     if len(bytes) < 8 or bytes[0] != 76 or bytes[1] != 70 or bytes[2] != 84 or bytes[3] != 49:
         raise Error("not an LFT1 file: " + path)
 
